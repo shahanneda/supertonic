@@ -10,7 +10,11 @@ function Wrapper({
 }) {
   return (
     <View
-      style={[styles.container, shouldCenterVertically ? {} : { justifyContent: "flex-start" }]}>
+      style={[
+        styles.container,
+        shouldCenterVertically ? {} : { justifyContent: "flex-start" },
+      ]}
+    >
       {children}
     </View>
   );

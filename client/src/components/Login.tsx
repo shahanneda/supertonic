@@ -8,13 +8,14 @@ import * as WebBrowser from "expo-web-browser";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Button, Platform } from "react-native";
 
-import awsConfig from "../aws-exports";
 import { Wrapper } from "./Wrapper";
+import awsConfig from "../aws-exports";
 import { RootStackParamList } from "../rootStackParamList";
 
 const isLocalHost = Boolean(__DEV__);
 
-const [localRedirectSignIn, productionRedirectSignIn] = awsConfig.oauth.redirectSignIn.split(",");
+const [localRedirectSignIn, productionRedirectSignIn] =
+  awsConfig.oauth.redirectSignIn.split(",");
 
 const [localRedirectSignOut, productionRedirectSignOut] =
   awsConfig.oauth.redirectSignOut.split(",");
@@ -36,7 +37,10 @@ async function urlOpener(url, redirectUrl) {
   }
 
   //@ts-ignore URL is actually there for when we're using it
-  const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(url, redirectUrl);
+  const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(
+    url,
+    redirectUrl
+  );
 
   if (type === "success") {
     if (Platform.OS === "ios") {
@@ -63,7 +67,9 @@ const updatedConfig = {
 };
 Amplify.configure(updatedConfig);
 
-function Login({ navigation }: NativeStackScreenProps<RootStackParamList, "Login">) {
+function Login({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, "Login">) {
   const [user, setUser] = useState(null);
   const [email, setUserEmail] = useState(null);
   const [customState, setCustomState] = useState(null);
@@ -90,7 +96,9 @@ function Login({ navigation }: NativeStackScreenProps<RootStackParamList, "Login
     Auth.currentAuthenticatedUser()
       .then(async (currentUser) => {
         setUser(currentUser);
-        const token = (await Auth.userSession(currentUser)).getIdToken().getJwtToken();
+        const token = (await Auth.userSession(currentUser))
+          .getIdToken()
+          .getJwtToken();
         if (token !== undefined) {
           localStorage.setItem("token", token);
           console.log(token);

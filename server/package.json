@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
@@ -29,7 +30,9 @@
     "@prisma/client": "^4.12.0",
     "@types/passport-cognito": "^0.1.0",
     "aws-jwt-verify": "^4.0.0",
+    "aws-sdk": "^2.1359.0",
     "jwks-rsa": "^3.0.1",
+    "nest-aws-sdk": "^3.0.1",
     "passport": "^0.6.0",
     "passport-cognito": "^0.2.2",
     "passport-jwt": "^4.0.1",

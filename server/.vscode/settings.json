@@ -1,4 +1,8 @@
 {
   "cSpell.words": ["nestjs"],
-  "workbench.iconTheme": "material-icon-theme"
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.workingDirectories": [{ "directory": "server" }]
 }

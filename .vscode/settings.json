@@ -1,0 +1,19 @@
+{
+  "editor.formatOnSave": true,
+  "eslint.workingDirectories": [
+    { "mode": "auto", "directory": "./client" },
+    { "mode": "auto", "directory": "./server" }
+  ],
+  "prettier.configPath": "./client/.prettierrc",
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.formatOnSaveMode": "file",
+  "files.autoSave": "onFocusChange",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

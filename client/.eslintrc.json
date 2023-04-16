@@ -1,0 +1,15 @@
+{
+  "extends": ["universe/native", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {},
+      {
+        "usePrettierrc": true
+      }
+    ]
+  },
+  "overrides": [],
+  "ignorePatterns": ["node_modules", "build", "dist", "public"]
+}

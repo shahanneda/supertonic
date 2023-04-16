@@ -7,6 +7,7 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { CreateUserDto } from './models/CreateUserDto';
+export type { UploadFileDto } from './models/UploadFileDto';
 export type { UserEntity } from './models/UserEntity';
 
 export { SheetMusicService } from './services/SheetMusicService';
