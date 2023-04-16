@@ -6,12 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/User.entitiy';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { Protected } from 'src/auth/protected.decorator';
+import { User } from './user.decorator';
 
 @Controller('users')
 @ApiTags('users')
@@ -23,6 +28,13 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Get('/')
+  @Protected()
+  get(@User() user: UserEntity) {
+    console.log('user', user);
+    return this.usersService.findByEmail(user.email);
+  }
+
   @Get(':id')
   @ApiOkResponse({ type: UserEntity })
   findOne(@Param('id') id: string) {
@@ -30,9 +42,10 @@ export class UsersController {
   }
 
   @Get('/email/:email')
+  @UseGuards(AuthGuard)
   @ApiOkResponse({ type: UserEntity })
+  @ApiHeader({ name: 'Authorization', description: 'Bearer token' })
   findByEmail(@Param('email') email: string) {
-    console.log('user');
     return this.usersService.findByEmail(email);
   }
 

@@ -31,12 +31,6 @@ export interface CreateUserDto {
      * @memberof CreateUserDto
      */
     email: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof CreateUserDto
-     */
-    test: number;
 }
 
 /**
@@ -46,7 +40,6 @@ export function instanceOfCreateUserDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "email" in value;
-    isInstance = isInstance && "test" in value;
 
     return isInstance;
 }
@@ -63,7 +56,6 @@ export function CreateUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'name': json['name'],
         'email': json['email'],
-        'test': json['test'],
     };
 }
 
@@ -78,7 +70,6 @@ export function CreateUserDtoToJSON(value?: CreateUserDto | null): any {
         
         'name': value.name,
         'email': value.email,
-        'test': value.test,
     };
 }
 

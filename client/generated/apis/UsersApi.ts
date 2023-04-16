@@ -34,10 +34,15 @@ export interface UsersControllerCreateRequest {
 
 export interface UsersControllerFindByEmailRequest {
     email: string;
+    authorization?: string;
 }
 
 export interface UsersControllerFindOneRequest {
     id: string;
+}
+
+export interface UsersControllerGetRequest {
+    authorization?: string;
 }
 
 export interface UsersControllerRemoveRequest {
@@ -95,6 +100,10 @@ export class UsersApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
         const response = await this.request({
             path: `/users/email/{email}`.replace(`{${"email"}}`, encodeURIComponent(String(requestParameters.email))),
             method: 'GET',
@@ -137,6 +146,34 @@ export class UsersApi extends runtime.BaseAPI {
      */
     async usersControllerFindOne(requestParameters: UsersControllerFindOneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserEntity> {
         const response = await this.usersControllerFindOneRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async usersControllerGetRaw(requestParameters: UsersControllerGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserEntity>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/users`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserEntityFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async usersControllerGet(requestParameters: UsersControllerGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserEntity> {
+        const response = await this.usersControllerGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
