@@ -33,15 +33,7 @@ export class SheetMusicController {
   @ApiHeader({ name: 'Content-Type' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        file: {
-          type: 'string',
-          format: 'binary',
-        },
-      },
-    },
+    type: UploadFileDto,
   })
   uploadFile(
     @UploadedFile(
@@ -53,10 +45,7 @@ export class SheetMusicController {
       }),
     )
     file: Express.Multer.File,
-    @Body() uploadFileDto: UploadFileDto,
   ) {
-    console.log('Inside uploading');
-    console.log(file);
-    console.log(uploadFileDto);
+    console.log('Received file: ', file.originalname);
   }
 }

@@ -12,17 +12,7 @@ export default function Upload({ }: Props) {
 	const auth = useAuthentication();
 
 	async function submitFile(file: File) {
-		const user = await UserService.getUser();
-		const formData = new FormData();
-		formData.append('file', file);
-
-
-		// 	console.log("GOT USER HERE", user)
-			console.log(file)
-		// let res = await fetch("http://localhost:3000/sheet-music/sheet-music/upload", { method: "POST", body: formData, headers: new Headers({ 'Authorization': `Bearer ${auth}` }) })
-		// const fileany = new Blob(file);
-		// application/x-www-form-urlencoded
-		let res = SheetMusicService.upload({file: file});
+		SheetMusicService.upload({file: file, randomString: "hello"});
 	}
 
 	return (

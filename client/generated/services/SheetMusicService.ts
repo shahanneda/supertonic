@@ -17,6 +17,7 @@ export class SheetMusicService {
     public static upload(
         formData: {
             file?: Blob;
+            randomString?: string;
         },
         contentType?: string,
         authorization?: string,
