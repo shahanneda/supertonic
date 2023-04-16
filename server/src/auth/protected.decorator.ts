@@ -10,7 +10,6 @@ import { AuthGuard } from './auth.guard';
 export function Protected(..._: string[]) {
   return applyDecorators(
     UseGuards(AuthGuard),
-    ApiOkResponse({ type: UserEntity }),
     ApiHeader({ name: 'Authorization', description: 'Bearer token' }),
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );

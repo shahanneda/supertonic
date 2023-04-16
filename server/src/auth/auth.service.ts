@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
-import { UsersService } from 'src/users/users.service';
+import { UserService } from 'src/users/user.service';
 
 const verifier = CognitoJwtVerifier.create({
   userPoolId: 'us-east-2_JHPSvF8sd',
@@ -11,23 +11,20 @@ const verifier = CognitoJwtVerifier.create({
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UserService) {}
 
   public async verifyToken(token: string): Promise<User> {
-    console.log(token);
     let userInfo = null;
     try {
       const payload = await verifier.verify(token);
       const name = payload.given_name + ' ' + payload.family_name;
       const email = payload.email as string;
-      console.log(payload);
       userInfo = { name, email };
     } catch (e) {
       console.log(e);
       userInfo = { name: 'Test User', email: 'test@example.com' };
     }
 
-    console.log('Inside Auth Serive');
     console.log(userInfo);
     const user = await this.usersService.getUserOrCreateByEmail(
       userInfo.email,

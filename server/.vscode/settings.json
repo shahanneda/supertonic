@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["nestjs"]
+  "cSpell.words": ["nestjs"],
+  "workbench.iconTheme": "material-icon-theme"
 }
