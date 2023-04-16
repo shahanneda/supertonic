@@ -19,7 +19,6 @@ import { RootStackParamList } from "../rootStackParamList";
 type Props = object;
 
 export default function Upload({}: Props) {
-  // const FS = require("expo-file-system").FileSystem;
   const navigator = useNavigation<NavigationProp<RootStackParamList>>();
   const auth = useAuthentication();
 
@@ -62,7 +61,7 @@ export default function Upload({}: Props) {
             type: "application/pdf",
           })) as any;
 
-          if (Platform.OS === "web" && result.file) {
+          if (Platform.OS === "web") {
             uploadFromFile(result.file);
           } else {
             uploadFromUri(result.uri, result.name);

@@ -13,6 +13,7 @@ export class S3ManagerService {
         Bucket: BUCKET_NAME,
         Key: key,
         Body: file.buffer,
+        ContentType: file.mimetype,
       })
       .promise();
     return response.Location;
