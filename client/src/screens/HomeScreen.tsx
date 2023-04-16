@@ -1,11 +1,12 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
 import * as React from "react";
-import { Button, Text, View } from "react-native";
+import { Button, FlatList, Text, View } from "react-native";
 
 // import { Configuration, CreateUserDtoFromJSON, UserEntity, UsersApi } from './generated';
 import {
   OpenAPI,
+  SheetMusicDocumentEntity,
   SheetMusicService,
   UserEntity,
   UserService,
@@ -22,16 +23,17 @@ function HomeScreen() {
       setUser(user);
     });
   }, []);
-  const [currentPdfUrl, setCurrentPdfUrl] = React.useState(
-    "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-  );
+  const [currentSheetMusics, setCurrentSheetMusics] = React.useState<
+    SheetMusicDocumentEntity[]
+  >([]);
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   React.useEffect(() => {
     SheetMusicService.getAllSheetMusic().then((data) => {
-      setCurrentPdfUrl(data[0]);
+      console.log("Got data", data);
+      setCurrentSheetMusics(data);
     });
-  });
+  }, []);
 
   return (
     <Wrapper shouldCenterVertically={false}>
@@ -46,13 +48,34 @@ function HomeScreen() {
         title="Go to Login"
       />
       <Button onPress={() => navigation.navigate("Upload")} title="Upload" />
-      <Button
-        onPress={() => {
-          navigation.navigate("PDF", { url: currentPdfUrl });
+      <FlatList
+        data={currentSheetMusics}
+        renderItem={({ item }) => {
+          const sheetMusic = item;
+          return (
+            <View style={{ marginVertical: 10 }}>
+              <Button
+                onPress={() => {
+                  navigation.navigate("PDF", { url: sheetMusic.url });
+                }}
+                title={sheetMusic.name}
+                key={sheetMusic.id}
+              />
+            </View>
+          );
         }}
-        title="View Pdf File"
       />
-      <Text>{currentPdfUrl}</Text>
+      {/* {currentSheetMusics.map((sheetMusic) => {
+        return (
+          <Button
+            onPress={() => {
+              navigation.navigate("PDF", { url: sheetMusic.url });
+            }}
+            title={sheetMusic.name}
+            key={sheetMusic.id}
+          />
+        );
+      })} */}
     </Wrapper>
   );
 }

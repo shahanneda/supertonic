@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { SheetMusicService } from './sheet-music.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { SheetMusicService } from "./sheet-music.service";
 
-describe('SheetMusicService', () => {
+describe("SheetMusicService", () => {
   let service: SheetMusicService;
 
   beforeEach(async () => {
@@ -12,7 +12,7 @@ describe('SheetMusicService', () => {
     service = module.get<SheetMusicService>(SheetMusicService);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(service).toBeDefined();
   });
 });

@@ -21,15 +21,21 @@ import {
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
+import { User } from "@prisma/client";
 import { url } from "inspector";
 import { Protected } from "src/auth/protected.decorator";
 import { S3ManagerService } from "src/s3-manager/s3-manager.service";
+import { InjectUser } from "src/users/user.decorator";
 import { ApiName } from "src/utils/api-name.decorator";
 import { UploadFileDto } from "./dto/upload-file.dto";
+import { SheetMusicDocumentEntity } from "./entities/SheetMusicDocument.entity";
+import { SheetMusicService } from "./sheet-music.service";
 
 @Controller("sheet-music")
 @ApiTags("SheetMusic")
 export class SheetMusicController {
+  constructor(private sheetMusicService: SheetMusicService) {}
+
   @Post("/sheet-music/upload")
   @UseInterceptors(FileInterceptor("file"))
   @Protected()
@@ -47,26 +53,23 @@ export class SheetMusicController {
         ],
       })
     )
-    file: Express.Multer.File
+    file: Express.Multer.File,
+    @InjectUser() user: User
   ) {
+    this.sheetMusicService.uploadNewSheetMusic(file, user);
     console.log("Received file: ", file.originalname);
   }
 
   @Get()
   @Protected()
   @ApiName("getAllSheetMusic")
-  @ApiResponse({ type: [String], description: "List of all sheet music urls" })
-  async getAllSheetMusic(): Promise<string[]> {
-    const files = await this.s3Manager.listBucketContents();
-    const urls = await Promise.all(
-      files.map(async (f) => {
-        console.log(f);
-        const url = await this.s3Manager.getSignedUrlForFile(f);
-        return url;
-        console.log(url);
-      })
-    );
-    console.log(urls);
-    return urls;
+  @ApiResponse({
+    type: [SheetMusicDocumentEntity],
+    description: "List of all sheet music urls",
+  })
+  async getAllSheetMusic(
+    @InjectUser() user: User
+  ): Promise<SheetMusicDocumentEntity[]> {
+    return await this.sheetMusicService.getAllUserSheetMusic(user);
   }
 }

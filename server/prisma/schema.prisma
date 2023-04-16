@@ -20,6 +20,7 @@ model SheetMusicDocument {
   id Int @id @default(autoincrement())
   uploader User? @relation(fields: [uploaderId], references: [id])
   uploaderId Int?
+  name String
   key String
 }
 

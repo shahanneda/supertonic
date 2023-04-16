@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { SheetMusicController } from './sheet-music.controller';
+import { Test, TestingModule } from "@nestjs/testing";
+import { SheetMusicController } from "./sheet-music.controller";
 
-describe('SheetMusicController', () => {
+describe("SheetMusicController", () => {
   let controller: SheetMusicController;
 
   beforeEach(async () => {
@@ -12,7 +12,7 @@ describe('SheetMusicController', () => {
     controller = module.get<SheetMusicController>(SheetMusicController);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 });
