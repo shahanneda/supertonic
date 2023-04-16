@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-supertonic-dev-203220-authRole",
+      "UnauthRoleArn": "arn:aws:iam::776637943660:role/amplify-supertonic-dev-203220-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::776637943660:role/amplify-supertonic-dev-203220-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-supertonic-dev-203220-deployment",
+      "UnauthRoleName": "amplify-supertonic-dev-203220-unauthRole",
+      "StackName": "amplify-supertonic-dev-203220",
+      "StackId": "arn:aws:cloudformation:us-east-2:776637943660:stack/amplify-supertonic-dev-203220/271fac80-dbee-11ed-b663-02cd5b7c45c8",
+      "AmplifyAppId": "d3ht6v666yddc3"
+    },
+    "categories": {
+      "auth": {
+        "supertonic41eaa75f": {}
+      }
+    }
+  }
+}
