@@ -1,4 +1,8 @@
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  useIsFocused,
+  useNavigation,
+} from "@react-navigation/native";
 import { Auth } from "aws-amplify";
 import * as React from "react";
 import { Button, FlatList, Text, View } from "react-native";
@@ -27,13 +31,14 @@ function HomeScreen() {
     SheetMusicDocumentEntity[]
   >([]);
 
+  const isFocused = useIsFocused();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   React.useEffect(() => {
     SheetMusicService.getAllSheetMusic().then((data) => {
       console.log("Got data", data);
       setCurrentSheetMusics(data);
     });
-  }, []);
+  }, [isFocused]);
 
   return (
     <Wrapper shouldCenterVertically={false}>
@@ -65,17 +70,6 @@ function HomeScreen() {
           );
         }}
       />
-      {/* {currentSheetMusics.map((sheetMusic) => {
-        return (
-          <Button
-            onPress={() => {
-              navigation.navigate("PDF", { url: sheetMusic.url });
-            }}
-            title={sheetMusic.name}
-            key={sheetMusic.id}
-          />
-        );
-      })} */}
     </Wrapper>
   );
 }

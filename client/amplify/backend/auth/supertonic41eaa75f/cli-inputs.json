@@ -65,10 +65,10 @@
     },
     "breakCircularDependency": true,
     "dependsOn": [],
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:4000/\",\"http://localhost:19006/\"],\"LogoutURLs\":[\"http://localhost:4000/\",\"http://localhost:19006/\"]}",
     "parentStack": {
       "Ref": "AWS::StackId"
     },
-    "permissions": []
+    "permissions": [],
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:4000/\",\"http://localhost:19006/\",\"exp://192.168.1.79:19000/\"],\"LogoutURLs\":[\"http://localhost:4000/\",\"http://localhost:19006/\",\"exp://192.168.1.79:19000/\"]}"
   }
 }

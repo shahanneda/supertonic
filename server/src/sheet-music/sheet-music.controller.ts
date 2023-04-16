@@ -56,7 +56,8 @@ export class SheetMusicController {
     file: Express.Multer.File,
     @InjectUser() user: User
   ) {
-    this.sheetMusicService.uploadNewSheetMusic(file, user);
+    console.log("got controller");
+    await this.sheetMusicService.uploadNewSheetMusic(file, user);
     console.log("Received file: ", file.originalname);
   }
 

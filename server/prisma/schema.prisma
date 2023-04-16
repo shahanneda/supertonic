@@ -21,7 +21,7 @@ model SheetMusicDocument {
   uploader User? @relation(fields: [uploaderId], references: [id])
   uploaderId Int?
   name String
-  key String
+  key String @unique
 }
 
 model Post {

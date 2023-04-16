@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, Injectable } from "@nestjs/common";
 import { Prisma, User } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
 import { S3ManagerService } from "src/s3-manager/s3-manager.service";
@@ -16,17 +16,23 @@ export class SheetMusicService {
     user: User
   ): Promise<string> {
     // TODO: change key to user
-    const key = file.originalname;
-    const fileUrl = await this.s3Manager.putItem(file, key);
+    const key = Date.now().toString() + "--" + file.originalname;
+    console.log("KEY is", file);
+    try {
+      await this.prisma.sheetMusicDocument.create({
+        data: {
+          key: key,
+          uploaderId: user.id,
+          name: file.originalname,
+        },
+      });
+    } catch (e) {
+      throw new HttpException("message", 400, {
+        cause: new Error("Duplicate key"),
+      });
+    }
 
-    const res = await this.prisma.sheetMusicDocument.create({
-      data: {
-        key: key,
-        uploaderId: user.id,
-        name: file.originalname,
-      },
-    });
-    console.log(res);
+    const fileUrl = await this.s3Manager.putItem(file, key);
 
     return fileUrl;
   }

@@ -6,7 +6,6 @@ function useAuthentication(): string | null {
 
   useEffect(() => {
     Auth.currentSession().then((session) => {
-      console.log(session.getIdToken().getJwtToken());
       setToken(session.getIdToken().getJwtToken());
     });
   }, []);
