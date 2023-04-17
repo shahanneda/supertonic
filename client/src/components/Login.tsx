@@ -84,7 +84,8 @@ function Login({
           break;
         case "signOut":
           setUser(null);
-          localStorage.removeItem("token");
+          // if(local)
+          // localStorage.removeItem("token");
           break;
         // Only needed for separate tabs
         // case "cognitoHostedUI":
@@ -96,15 +97,6 @@ function Login({
     Auth.currentAuthenticatedUser()
       .then(async (currentUser) => {
         setUser(currentUser);
-        const token = (await Auth.userSession(currentUser))
-          .getIdToken()
-          .getJwtToken();
-        if (token !== undefined) {
-          localStorage.setItem("token", token);
-          console.log(token);
-        } else {
-          localStorage.removeItem("token");
-        }
       })
       .catch(() => console.log("Not signed in"));
 
@@ -123,7 +115,10 @@ function Login({
           }
         />
       ) : (
-        <Button title="Sign Out" onPress={() => Auth.signOut()} />
+        <Button
+          title="Sign Out"
+          onPress={() => Auth.signOut({ global: true })}
+        />
       )}
       <Text>{user && user.getUsername()}</Text>
       <Text>{appLink}</Text>

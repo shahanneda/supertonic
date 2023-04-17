@@ -5,9 +5,13 @@ function useAuthentication(): string | null {
   const [token, setToken] = useState<string>(null);
 
   useEffect(() => {
-    Auth.currentSession().then((session) => {
-      setToken(session.getIdToken().getJwtToken());
-    });
+    Auth.currentSession()
+      .then((session) => {
+        setToken(session.getIdToken().getJwtToken());
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
 
   return token;
