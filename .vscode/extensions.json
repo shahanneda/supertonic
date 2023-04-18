@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "vscodevim.vim",
+    "dbaeumer.vscode-eslint",
+    "EthanSK.restore-terminals"
+  ]
+}

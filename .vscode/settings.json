@@ -15,5 +15,47 @@
   "files.autoSave": "onFocusChange",
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "restoreTerminals.terminals": [
+    {
+      "splitTerminals": [
+        {
+          "name": "client",
+          "commands": ["cd client && npm run dev"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "server",
+          "commands": ["cd server && npm run dev"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "docker",
+          "commands": ["cd server && docker compose up"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "client",
+          "commands": ["cd client"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "server",
+          "commands": ["cd server"]
+        }
+      ]
+    }
+  ]
 }

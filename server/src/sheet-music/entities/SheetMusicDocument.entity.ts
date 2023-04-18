@@ -24,3 +24,11 @@ export class SheetMusicDocumentEntity implements SheetMusicDocument {
   @ApiProperty()
   url: string;
 }
+
+export class PatchSheetMusicEntity {
+  @ApiProperty()
+  id: number;
+
+  @ApiProperty({ required: false })
+  name?: string;
+}

@@ -23,18 +23,16 @@ import {
 } from "./generated";
 import { Login } from "./src/components/Login";
 import { PdfViewer } from "./src/components/PdfViewer";
-import { SheetMusicView } from "./src/components/SheetMusicView";
 import Upload from "./src/components/Upload";
 import { useAuthentication } from "./src/hooks/useAuthentication";
 import { RootStackParamList } from "./src/rootStackParamList";
 import { HomeScreen } from "./src/screens/HomeScreen";
+import { EditSheetMusicScreen } from "./src/screens/SheetMusic/EditSheetMusicScreen";
+import {
+  SheetMusicScreen,
+  SheetMusicScreenHeaderRight,
+} from "./src/screens/SheetMusic/SheetMusicScreen";
 
-OpenAPI.BASE = "http://localhost:3000";
-OpenAPI.TOKEN = async () => {
-  const session = await Auth.currentSession();
-  return session.getIdToken().getJwtToken();
-};
-//192.168.1.79:19000/
 OpenAPI.BASE = "http://192.168.1.79:3000";
 OpenAPI.TOKEN = async () => {
   const session = await Auth.currentSession();
@@ -46,6 +44,26 @@ function HomeScreenStack() {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Upload" component={Upload} />
+    </Stack.Navigator>
+  );
+}
+
+function SheetMusicStack() {
+  return (
+    <Stack.Navigator initialRouteName="SheetMusicScreen">
+      <Stack.Screen
+        name="SheetMusicScreen"
+        component={SheetMusicScreen}
+        options={{
+          title: "Music Viewer",
+          headerRight: SheetMusicScreenHeaderRight,
+        }}
+        initialParams={{}}
+      />
+      <Stack.Screen
+        name="EditSheetMusicScreen"
+        component={EditSheetMusicScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -64,7 +82,7 @@ function App() {
 
             if (route.name === "HomeTab") {
               iconName = focused ? "ios-home" : "ios-home-outline";
-            } else if (route.name === "PDF") {
+            } else if (route.name === "MusicTab") {
               iconName = focused ? "ios-albums" : "ios-albums-outline";
             }
 
@@ -78,15 +96,12 @@ function App() {
         <Tab.Screen
           name="HomeTab"
           component={HomeScreenStack}
-          options={{
-            header: () => <View />,
-          }}
+          options={{ headerShown: false }}
         />
         <Tab.Screen
-          name="PDF"
-          component={SheetMusicView}
-          options={{ title: "Music Viewer" }}
-          initialParams={{ url: "" }}
+          name="MusicTab"
+          component={SheetMusicStack}
+          options={{ headerShown: false }}
         />
       </Tab.Navigator>
     </NavigationContainer>

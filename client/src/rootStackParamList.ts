@@ -1,6 +1,16 @@
+import { NavigatorScreenParams } from "@react-navigation/native";
+
+import { SheetMusicDocumentEntity } from "../generated";
+
 type RootStackParamList = {
   Login: undefined;
+  Home: undefined;
   Upload: undefined;
-  PDF: { url: string };
+  MusicTab: NavigatorScreenParams<MusicTabParamList>;
 };
-export { RootStackParamList };
+
+type MusicTabParamList = {
+  SheetMusicScreen: { music: SheetMusicDocumentEntity };
+  EditSheetMusicScreen: { music?: SheetMusicDocumentEntity };
+};
+export { RootStackParamList, MusicTabParamList };

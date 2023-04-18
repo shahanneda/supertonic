@@ -17,7 +17,6 @@ export class SheetMusicService {
   ): Promise<string> {
     // TODO: change key to user
     const key = Date.now().toString() + "--" + file.originalname;
-    console.log("KEY is", file);
     try {
       await this.prisma.sheetMusicDocument.create({
         data: {
@@ -37,24 +36,36 @@ export class SheetMusicService {
     return fileUrl;
   }
   async getAllUserSheetMusic(user: User): Promise<SheetMusicDocumentEntity[]> {
-    // TODO: add user
-    const sheetMusic = await this.prisma.sheetMusicDocument.findMany();
-    console.log("Got sheetmus");
-    console.log(sheetMusic);
+    const sheetMusic = await this.prisma.sheetMusicDocument.findMany({
+      where: { uploaderId: user.id },
+    });
+
     const entities = await Promise.all(
-      sheetMusic.map(async (s) => {
-        const entity = new SheetMusicDocumentEntity(
-          s.id,
-          s.uploaderId,
-          s.name,
-          s.key
-        );
-        entity.url = await this.s3Manager.getSignedUrlForKey(s.key);
-        return entity;
+      sheetMusic.map(async (sheet) => {
+        return this.addSignedUrlToSheetMusic(sheet as SheetMusicDocumentEntity);
       })
     );
-    console.log("en: ", entities);
-
     return entities;
+  }
+
+  async renameSheet(
+    id: number,
+    newName: string
+  ): Promise<SheetMusicDocumentEntity> {
+    console.log(`renaming sheet ${id} to ${newName}`);
+    // TODO: add user
+    //     @InjectUser() user: User
+    const doc = await this.prisma.sheetMusicDocument.update({
+      where: { id: id },
+      data: { name: newName },
+    });
+    return this.addSignedUrlToSheetMusic(doc as SheetMusicDocumentEntity);
+  }
+
+  private async addSignedUrlToSheetMusic(
+    sheet: SheetMusicDocumentEntity
+  ): Promise<SheetMusicDocumentEntity> {
+    sheet.url = await this.s3Manager.getSignedUrlForKey(sheet.key);
+    return sheet;
   }
 }

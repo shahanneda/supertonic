@@ -35,7 +35,6 @@ function HomeScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   React.useEffect(() => {
     SheetMusicService.getAllSheetMusic().then((data) => {
-      console.log("Got data", data);
       setCurrentSheetMusics(data);
     });
   }, [isFocused]);
@@ -61,7 +60,10 @@ function HomeScreen() {
             <View style={{ marginVertical: 10 }}>
               <Button
                 onPress={() => {
-                  navigation.navigate("PDF", { url: sheetMusic.url });
+                  navigation.navigate("MusicTab", {
+                    screen: "SheetMusicScreen",
+                    params: { music: item },
+                  });
                 }}
                 title={sheetMusic.name}
                 key={sheetMusic.id}
