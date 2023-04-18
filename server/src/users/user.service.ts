@@ -39,6 +39,10 @@ export class UserService {
     return this.prisma.user.findFirst({ where: { email: email } });
   }
 
+  getAllUsers() {
+    return this.prisma.user.findMany();
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }

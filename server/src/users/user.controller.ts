@@ -45,11 +45,19 @@ export class UserController {
   }
 
   @Get("/email/:email")
-  @UseGuards(AuthGuard)
   @ApiOkResponse({ type: UserEntity })
-  @ApiHeader({ name: "Authorization", description: "Bearer token" })
+  @ApiName("getUserByEmail")
+  @Protected()
   findByEmail(@Param("email") email: string) {
     return this.usersService.findByEmail(email);
+  }
+
+  @Get("/user/all")
+  @ApiOkResponse({ type: [UserEntity] })
+  @ApiName("getAllUsers")
+  @Protected()
+  getAll() {
+    return this.usersService.getAllUsers();
   }
 
   // @Get(':id')

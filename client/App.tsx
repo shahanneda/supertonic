@@ -32,6 +32,19 @@ import {
   SheetMusicScreen,
   SheetMusicScreenHeaderRight,
 } from "./src/screens/SheetMusic/SheetMusicScreen";
+import { AllUsersScreen } from "./src/screens/Social/AllUsersScreen";
+
+//https://oblador.github.io/react-native-vector-icons/
+const tabNameToNormalIcon: Record<keyof RootStackParamList, string> = {
+  HomeTab: "ios-home",
+  MusicTab: "ios-albums",
+  SocialTab: "ios-people",
+};
+const tabNameToFocusedIcon: Record<keyof RootStackParamList, string> = {
+  HomeTab: "ios-home-outline",
+  MusicTab: "ios-albums-outline",
+  SocialTab: "ios-people-outline",
+};
 
 OpenAPI.BASE = "http://192.168.1.79:3000";
 OpenAPI.TOKEN = async () => {
@@ -68,6 +81,15 @@ function SheetMusicStack() {
   );
 }
 
+function SocialStack() {
+  return (
+    <Stack.Navigator initialRouteName="AllUsersScreen">
+      <Stack.Screen name="AllUsers" component={AllUsersScreen} />
+      <Stack.Screen name="UserProfileScreen" component={SheetMusicScreen} />
+    </Stack.Navigator>
+  );
+}
+
 function App() {
   return (
     <NavigationContainer
@@ -77,16 +99,10 @@ function App() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            //https://oblador.github.io/react-native-vector-icons/
-            let iconName;
+            const iconName = focused
+              ? tabNameToFocusedIcon[route.name]
+              : tabNameToNormalIcon[route.name];
 
-            if (route.name === "HomeTab") {
-              iconName = focused ? "ios-home" : "ios-home-outline";
-            } else if (route.name === "MusicTab") {
-              iconName = focused ? "ios-albums" : "ios-albums-outline";
-            }
-
-            // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
           tabBarActiveTintColor: "tomato",
@@ -96,12 +112,17 @@ function App() {
         <Tab.Screen
           name="HomeTab"
           component={HomeScreenStack}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, title: "Home" }}
         />
         <Tab.Screen
           name="MusicTab"
           component={SheetMusicStack}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, title: "Music" }}
+        />
+        <Tab.Screen
+          name="SocialTab"
+          component={SocialStack}
+          options={{ headerShown: false, title: "Social" }}
         />
       </Tab.Navigator>
     </NavigationContainer>

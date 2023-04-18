@@ -1,16 +1,26 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 
-import { SheetMusicDocumentEntity } from "../generated";
+import { SheetMusicDocumentEntity, UserEntity } from "../generated";
 
 type RootStackParamList = {
+  HomeTab: NavigatorScreenParams<HomeTabParamList>;
+  MusicTab: NavigatorScreenParams<MusicTabParamList>;
+  SocialTab: NavigatorScreenParams<SocialTabParamList>;
+};
+
+type HomeTabParamList = {
+  Upload: undefined;
   Login: undefined;
   Home: undefined;
-  Upload: undefined;
-  MusicTab: NavigatorScreenParams<MusicTabParamList>;
 };
 
 type MusicTabParamList = {
   SheetMusicScreen: { music: SheetMusicDocumentEntity };
   EditSheetMusicScreen: { music?: SheetMusicDocumentEntity };
 };
-export { RootStackParamList, MusicTabParamList };
+
+type SocialTabParamList = {
+  AllUsersScreen: undefined;
+  UserProfileScreen: { user: UserEntity };
+};
+export { RootStackParamList, MusicTabParamList, HomeTabParamList };

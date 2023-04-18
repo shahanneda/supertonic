@@ -52,7 +52,7 @@ export class UserService {
      * @returns UserEntity
      * @throws ApiError
      */
-    public static userControllerFindByEmail(
+    public static getUserByEmail(
         email: string,
         authorization?: string,
     ): CancelablePromise<UserEntity> {
@@ -64,6 +64,29 @@ export class UserService {
             },
             headers: {
                 'Authorization': authorization,
+            },
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * @param authorization Bearer token
+     * @returns UserEntity
+     * @throws ApiError
+     */
+    public static getAllUsers(
+        authorization?: string,
+    ): CancelablePromise<Array<UserEntity>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/users/user/all',
+            headers: {
+                'Authorization': authorization,
+            },
+            errors: {
+                401: `Unauthorized`,
             },
         });
     }

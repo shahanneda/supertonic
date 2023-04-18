@@ -16,7 +16,7 @@ import {
   UserService,
 } from "../../generated";
 import { Wrapper } from "../components/Wrapper";
-import { RootStackParamList } from "../rootStackParamList";
+import { HomeTabParamList, RootStackParamList } from "../rootStackParamList";
 
 function HomeScreen() {
   const [user, setUser] = React.useState<UserEntity | null>(null);
@@ -32,7 +32,9 @@ function HomeScreen() {
   >([]);
 
   const isFocused = useIsFocused();
+
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   React.useEffect(() => {
     SheetMusicService.getAllSheetMusic().then((data) => {
       setCurrentSheetMusics(data);
@@ -48,10 +50,13 @@ function HomeScreen() {
         </Text>
       ) : null}
       <Button
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.navigate("HomeTab", { screen: "Login" })}
         title="Go to Login"
       />
-      <Button onPress={() => navigation.navigate("Upload")} title="Upload" />
+      <Button
+        onPress={() => navigation.navigate("HomeTab", { screen: "Upload" })}
+        title="Upload"
+      />
       <FlatList
         data={currentSheetMusics}
         renderItem={({ item }) => {
