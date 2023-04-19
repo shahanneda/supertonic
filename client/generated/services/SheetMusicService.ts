@@ -3,6 +3,7 @@
 /* eslint-disable */
 import type { PatchSheetMusicEntity } from '../models/PatchSheetMusicEntity';
 import type { SheetMusicDocumentEntity } from '../models/SheetMusicDocumentEntity';
+import type { SheetMusicPageEntity } from '../models/SheetMusicPageEntity';
 import type { UploadFileDto } from '../models/UploadFileDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -23,12 +24,37 @@ export class SheetMusicService {
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/sheet-music/sheet-music/upload',
+            url: '/sheet-music/upload',
             headers: {
                 'Authorization': authorization,
             },
             formData: formData,
             mediaType: 'multipart/form-data',
+            errors: {
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * @param sheetMusicId
+     * @param authorization Bearer token
+     * @returns SheetMusicPageEntity List of all sheet music urls
+     * @throws ApiError
+     */
+    public static getPagesForSheetMusic(
+        sheetMusicId: number,
+        authorization?: string,
+    ): CancelablePromise<Array<SheetMusicPageEntity>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/sheet-music/{sheetMusicId}/pages',
+            path: {
+                'sheetMusicId': sheetMusicId,
+            },
+            headers: {
+                'Authorization': authorization,
+            },
             errors: {
                 401: `Unauthorized`,
             },
@@ -67,7 +93,7 @@ export class SheetMusicService {
     ): CancelablePromise<SheetMusicDocumentEntity> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/sheet-music/sheet-music/{id}',
+            url: '/sheet-music/{id}',
             headers: {
                 'Authorization': authorization,
             },

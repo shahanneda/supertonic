@@ -2,12 +2,13 @@ import { ApiProperty } from "@nestjs/swagger";
 import { SheetMusicDocument } from "@prisma/client";
 
 export class SheetMusicDocumentEntity implements SheetMusicDocument {
-  constructor(id: number, uploaderId: number, name: string, key: string) {
+  constructor(id: number, uploaderId: number, name: string) {
     this.id = id;
     this.uploaderId = uploaderId;
     this.name = name;
-    this.key = key;
   }
+
+  createdAt: Date;
 
   @ApiProperty()
   id: number;
@@ -17,12 +18,6 @@ export class SheetMusicDocumentEntity implements SheetMusicDocument {
 
   @ApiProperty()
   name: string;
-
-  @ApiProperty()
-  key: string;
-
-  @ApiProperty()
-  url: string;
 }
 
 export class PatchSheetMusicEntity {

@@ -6,10 +6,11 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Platform, View } from "react-native";
 import { Document, Page, pdfjs } from "react-pdf";
 
+import { SheetMusicPageEntity, SheetMusicService } from "../../../generated";
 import { PdfViewer } from "../../components/PdfViewer";
 import {
   MusicTabParamList,
@@ -21,17 +22,27 @@ type Props = NativeStackScreenProps<MusicTabParamList, "SheetMusicScreen">;
 function SheetMusicScreen({ navigation, route }: Props) {
   console.log(route.params);
   console.log("In sheet music screen");
+  const [pages, setPages] = useState<SheetMusicPageEntity[]>([]);
 
-  if (!route.params.music) {
+  const { music } = route.params;
+
+  useEffect(() => {
+    if (music) {
+      console.log("makiing api call", music.id);
+      SheetMusicService.getPagesForSheetMusic(music.id).then((data) => {
+        setPages(data);
+      });
+    }
+  }, [music]);
+
+  if (!route.params.music || !pages || pages.length === 0) {
     console.log("early return");
     return;
   }
 
-  const { music } = route.params;
-
   navigation.setOptions({ headerTitle: music?.name });
 
-  return <PdfViewer url={music.url} />;
+  return <PdfViewer url={pages[0].url} />;
 }
 
 function SheetMusicScreenHeaderRight() {

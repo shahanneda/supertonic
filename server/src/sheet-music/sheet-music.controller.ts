@@ -35,6 +35,7 @@ import {
   PatchSheetMusicEntity,
   SheetMusicDocumentEntity,
 } from "./entities/SheetMusicDocument.entity";
+import { SheetMusicPageEntity } from "./entities/SheetMusicPage.entity";
 import { SheetMusicService } from "./sheet-music.service";
 
 @Controller("sheet-music")
@@ -42,7 +43,7 @@ import { SheetMusicService } from "./sheet-music.service";
 export class SheetMusicController {
   constructor(private sheetMusicService: SheetMusicService) {}
 
-  @Post("/sheet-music/upload")
+  @Post("/upload")
   @UseInterceptors(FileInterceptor("file"))
   @Protected()
   @ApiName("upload")
@@ -68,7 +69,25 @@ export class SheetMusicController {
     return { message: "File uploaded successfully" };
   }
 
-  @Get()
+  @Get("/:sheetMusicId/pages")
+  @Protected()
+  @ApiName("getPagesForSheetMusic")
+  @ApiResponse({
+    type: [SheetMusicPageEntity],
+    description: "List of all sheet music urls",
+  })
+  @ApiParam({ name: "sheetMusicId", type: Number })
+  async getAllPagesForSheetMusic(
+    @Param("sheetMusicId")
+    sheetMusicId: string
+  ): Promise<SheetMusicPageEntity[]> {
+    console.log("god id", sheetMusicId);
+    return await this.sheetMusicService.getPagesForSheetMusic(
+      parseInt(sheetMusicId)
+    );
+  }
+
+  @Get("/")
   @Protected()
   @ApiName("getAllSheetMusic")
   @ApiResponse({
@@ -78,10 +97,11 @@ export class SheetMusicController {
   async getAllSheetMusic(
     @InjectUser() user: User
   ): Promise<SheetMusicDocumentEntity[]> {
+    console.log("in this api endpoint");
     return await this.sheetMusicService.getAllUserSheetMusic(user);
   }
 
-  @Patch("/sheet-music/:id")
+  @Patch("/:id")
   @Protected()
   @ApiName("updateSheetMusic")
   @ApiBody({

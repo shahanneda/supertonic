@@ -8,27 +8,52 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  Post  Post[]
+  id                 Int                  @id @default(autoincrement())
+  email              String               @unique
+  name               String?
   uploadedSheetMusic SheetMusicDocument[]
+  recordings         Recording[]
+
   @@index([email])
 }
 
 model SheetMusicDocument {
-  id Int @id @default(autoincrement())
-  uploader User? @relation(fields: [uploaderId], references: [id])
-  uploaderId Int?
-  name String
-  key String @unique
+  id           Int              @id @default(autoincrement())
+  uploader     User?            @relation(fields: [uploaderId], references: [id])
+  uploaderId   Int?
+  name         String
+  pages        SheetMusicPage[]
+  createdAt    DateTime         @default(now())
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model SheetMusicPage {
+  id                   Int                @id @default(autoincrement())
+  orderInDocument      Int
+  s3DocumentId         Int                @unique
+  s3Document           S3Document         @relation(fields: [s3DocumentId], references: [id])
+  sheetMusicDocumentId Int
+  sheetMusicDocument   SheetMusicDocument @relation(fields: [sheetMusicDocumentId], references: [id])
+}
+
+model Recording {
+  id Int @id @default(autoincrement())
+
+  name        String
+  description String @default("") @db.Text()
+
+  uploaderId Int?
+  uploader   User? @relation(fields: [uploaderId], references: [id])
+
+  s3DocumentId Int        @unique
+  s3Document   S3Document @relation(fields: [s3DocumentId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model S3Document {
+  id             Int             @id @default(autoincrement())
+  key            String          @unique
+  uploadedAt     DateTime        @default(now())
+  SheetMusicPage SheetMusicPage?
+  Recording      Recording?
 }

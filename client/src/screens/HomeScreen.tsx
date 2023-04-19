@@ -40,6 +40,7 @@ function HomeScreen() {
       setCurrentSheetMusics(data);
     });
   }, [isFocused]);
+  console.log(currentSheetMusics);
 
   return (
     <Wrapper shouldCenterVertically={false}>
