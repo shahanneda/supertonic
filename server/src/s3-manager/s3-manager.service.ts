@@ -20,6 +20,31 @@ export class S3ManagerService {
     return await this.getSignedUrlForKey(document.key);
   }
 
+  async putBuffer(
+    buffer: Buffer,
+    prefix = "",
+    filename: string,
+    mimeType: string
+  ): Promise<S3Document> {
+    const key = prefix + "/" + Date.now().toString() + "--" + filename;
+    await this.s3
+      .upload({
+        Bucket: BUCKET_NAME,
+        Key: key,
+        Body: buffer,
+        ContentType: mimeType,
+      })
+      .promise();
+
+    const doc = await this.prisma.s3Document.create({
+      data: {
+        key: key,
+      },
+    });
+
+    return doc;
+  }
+
   async putFile(file: Express.Multer.File, prefix = ""): Promise<S3Document> {
     const key = prefix + "/" + Date.now().toString() + "--" + file.originalname;
     await this.s3

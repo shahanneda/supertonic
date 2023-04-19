@@ -27,6 +27,7 @@ export default function Upload({}: Props) {
       .then()
       .catch((e: ApiError) => {
         console.log(e.body);
+        navigator.goBack();
       });
   }
 

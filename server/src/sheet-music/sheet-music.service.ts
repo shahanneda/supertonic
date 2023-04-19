@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from "@nestjs/common";
+import { HttpException, Inject, Injectable } from "@nestjs/common";
 import {
   Prisma,
   SheetMusicDocument,
@@ -9,6 +9,10 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { S3ManagerService } from "src/s3-manager/s3-manager.service";
 import { SheetMusicDocumentEntity } from "./entities/SheetMusicDocument.entity";
 import { SheetMusicPageEntity } from "./entities/SheetMusicPage.entity";
+import { PDFDocument } from "pdf-lib";
+import { copyButOnlyPages } from "./entities/pdfUtils";
+import { InjectUser } from "src/users/user.decorator";
+import { userInfo } from "os";
 
 @Injectable()
 export class SheetMusicService {
@@ -19,17 +23,30 @@ export class SheetMusicService {
 
   private async createPagesForPdf(
     file: Express.Multer.File,
-    sheetMusicDocument: SheetMusicDocument
-  ): Promise<SheetMusicPage> {
-    const s3Document = await this.s3Manager.putFile(file);
-    const page = this.prisma.sheetMusicPage.create({
-      data: {
-        orderInDocument: 0,
-        s3DocumentId: s3Document.id,
-        sheetMusicDocumentId: sheetMusicDocument.id,
-      },
-    });
-    return page;
+    sheetMusicDocument: SheetMusicDocument,
+    fileNamePrefix: string
+  ): Promise<Array<SheetMusicPage>> {
+    const srcDoc = await PDFDocument.load(file.buffer);
+    const pages = [];
+    for (let i = 0; i < srcDoc.getPageCount(); i++) {
+      const singlePage = await copyButOnlyPages(srcDoc, [i]);
+      const s3Document = await this.s3Manager.putBuffer(
+        Buffer.from(await singlePage.save()),
+        fileNamePrefix,
+        i.toString() + ".pdf",
+        "application/pdf"
+      );
+
+      const page = await this.prisma.sheetMusicPage.create({
+        data: {
+          orderInDocument: i,
+          s3DocumentId: s3Document.id,
+          sheetMusicDocumentId: sheetMusicDocument.id,
+        },
+      });
+      pages.push(page);
+    }
+    return pages;
   }
 
   async getPagesForSheetMusic(
@@ -43,6 +60,7 @@ export class SheetMusicService {
         },
       },
     });
+    console.log("pages", pages);
 
     return await Promise.all(
       pages.map(async (page) => await this.addSignedUrlToPage(page))
@@ -60,7 +78,8 @@ export class SheetMusicService {
         name: file.originalname,
       },
     });
-    this.createPagesForPdf(file, sheetMusicDocument);
+    const prefix = user.id + "/" + sheetMusicDocument.id.toString();
+    this.createPagesForPdf(file, sheetMusicDocument, prefix);
 
     return sheetMusicDocument as SheetMusicDocumentEntity;
   }
