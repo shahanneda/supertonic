@@ -27,10 +27,22 @@ function PdfViewer({ url }: { url: string }) {
   return (
     <WebView
       javaScriptEnabled
-      style={{ flex: 1 }}
+      automaticallyAdjustContentInsets
+      style={{
+        flex: 1,
+        width: "94%",
+        alignItems: "center",
+        justifyContent: "center",
+        // TODO: fix this
+        marginLeft: "3%",
+      }}
+      height="50%"
       source={{ uri: focusUrl }}
       scrollEnabled
       pullToRefreshEnabled
+      // style={{ height, width, resizeMode: "cover", flex: 1 }}
+      scalesPageToFit={false}
+      onLoadEnd={this._onLoadEnd}
     />
   );
 }

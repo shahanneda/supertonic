@@ -6,8 +6,23 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import {
+  EncodingType,
+  FileSystemSessionType,
+  readAsStringAsync,
+  downloadAsync,
+  cacheDirectory,
+  documentDirectory,
+} from "expo-file-system";
 import React, { useEffect, useState } from "react";
-import { Button, Platform, View } from "react-native";
+import {
+  Text,
+  Button,
+  StyleSheet,
+  Platform,
+  Pressable,
+  View,
+} from "react-native";
 import { Document, Page, pdfjs } from "react-pdf";
 
 import { SheetMusicPageEntity, SheetMusicService } from "../../../generated";
@@ -25,6 +40,7 @@ function SheetMusicScreen({ navigation, route }: Props) {
   const [pages, setPages] = useState<SheetMusicPageEntity[]>([]);
 
   const { music } = route.params;
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     if (music) {
@@ -39,10 +55,53 @@ function SheetMusicScreen({ navigation, route }: Props) {
     console.log("early return");
     return;
   }
-
   navigation.setOptions({ headerTitle: music?.name });
+  // console.log(pages);
+  // console.log(pages[currentPage].url);
 
-  return <PdfViewer url={pages[0].url} />;
+  return (
+    <View style={{ flex: 1 }}>
+      <View>
+        <Text>
+          Page {currentPage + 1} / {pages.length}{" "}
+        </Text>
+      </View>
+      <View
+        style={{
+          height: "100%",
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+          width: "100%",
+          // alignItems: "center",
+        }}
+      >
+        <PdfViewer url={pages[currentPage].url} />
+      </View>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignContent: "center",
+          justifyContent: "space-between",
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <PageFlipper
+          onPress={() => {
+            setCurrentPage(mod(currentPage - 1, pages.length));
+          }}
+        />
+        <PageFlipper
+          onPress={() => {
+            setCurrentPage(mod(currentPage + 1, pages.length));
+          }}
+        />
+      </View>
+    </View>
+  );
 }
 
 function SheetMusicScreenHeaderRight() {
@@ -62,5 +121,35 @@ function SheetMusicScreenHeaderRight() {
     />
   );
 }
+const PageFlipper = ({ onPress }: { onPress: () => void }) => {
+  const styles = StyleSheet.create({
+    button: {
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 4,
+      elevation: 3,
+      // backgroundColor: "black",
+      height: "100%",
+      width: "40%",
+    },
+  });
+
+  return <Pressable style={styles.button} onPress={onPress} />;
+};
+
+// Javascript mod is broken for negative numbers
+function mod(a, n) {
+  return a - n * Math.floor(a / n);
+}
 
 export { SheetMusicScreen, SheetMusicScreenHeaderRight };
+
+async function blobToDataURL(blob: Blob): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (_e) => resolve(reader.result as string);
+    reader.onerror = (_e) => reject(reader.error);
+    reader.onabort = (_e) => reject(new Error("Read aborted"));
+    reader.readAsDataURL(blob);
+  });
+}

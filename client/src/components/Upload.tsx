@@ -1,10 +1,5 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import * as DocumentPicker from "expo-document-picker";
-import {
-  EncodingType,
-  FileSystemSessionType,
-  readAsStringAsync,
-} from "expo-file-system";
 import React from "react";
 import { Button, Platform, View } from "react-native";
 
@@ -24,10 +19,11 @@ export default function Upload({}: Props) {
 
   async function uploadFromFile(file: File) {
     SheetMusicService.upload({ file })
-      .then()
+      .then(() => {
+        navigator.goBack();
+      })
       .catch((e: ApiError) => {
         console.log(e.body);
-        navigator.goBack();
       });
   }
 
@@ -42,7 +38,7 @@ export default function Upload({}: Props) {
     } as any);
 
     try {
-      const res = fetch(OpenAPI.BASE + "/sheet-music/sheet-music/upload", {
+      const res = fetch(OpenAPI.BASE + "/sheet-music/upload", {
         method: "POST",
         body: formData,
         headers: new Headers({
@@ -53,6 +49,7 @@ export default function Upload({}: Props) {
         .then((res) => res.json())
         .then((res) => {
           console.log(res);
+          navigator.goBack();
         });
       // console.log(await res.());
     } catch (e) {

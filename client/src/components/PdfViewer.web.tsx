@@ -9,7 +9,7 @@ import { RootStackParamList } from "../rootStackParamList";
 function PdfViewer({ url }: { url: string }) {
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   return (
-    <div>
+    <div style={{ flex: 1, height: "50%" }}>
       <Document file={url}>
         <Page pageNumber={1} />
       </Document>
