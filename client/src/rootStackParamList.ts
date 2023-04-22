@@ -9,12 +9,13 @@ type RootStackParamList = {
 };
 
 type HomeTabParamList = {
-  Upload: undefined;
   Login: undefined;
   Home: undefined;
 };
 
 type MusicTabParamList = {
+  SheetMusicBrowserScreen: { userId: number };
+  UploadSheetMusicScreen: undefined;
   SheetMusicScreen: { music: SheetMusicDocumentEntity };
   EditSheetMusicScreen: { music?: SheetMusicDocumentEntity };
 };

@@ -87,6 +87,7 @@ export class SheetMusicService {
   async getAllUserSheetMusic(user: User): Promise<SheetMusicDocumentEntity[]> {
     const sheetMusic = await this.prisma.sheetMusicDocument.findMany({
       where: { uploaderId: user.id },
+      orderBy: { createdAt: "desc" },
     });
 
     const entities = await Promise.all(

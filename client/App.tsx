@@ -29,6 +29,7 @@ import { useAuthentication } from "./src/hooks/useAuthentication";
 import { RootStackParamList } from "./src/rootStackParamList";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { EditSheetMusicScreen } from "./src/screens/SheetMusic/EditSheetMusicScreen";
+import { SheetMusicBrowserScreen } from "./src/screens/SheetMusic/SheetMusicBrowserScreen";
 import {
   SheetMusicScreen,
   SheetMusicScreenHeaderRight,
@@ -59,14 +60,25 @@ function HomeScreenStack() {
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Upload" component={UploadSheetMusic} />
     </Stack.Navigator>
   );
 }
 
 function SheetMusicStack() {
   return (
-    <Stack.Navigator initialRouteName="SheetMusicScreen">
+    <Stack.Navigator initialRouteName="SheetMusicBrowser">
+      <Stack.Screen
+        name="SheetMusicBrowser"
+        component={SheetMusicBrowserScreen}
+        options={{
+          title: "Browser",
+        }}
+        initialParams={{}}
+      />
+      <Stack.Screen
+        name="UploadSheetMusicScreen"
+        component={UploadSheetMusic}
+      />
       <Stack.Screen
         name="SheetMusicScreen"
         component={SheetMusicScreen}
@@ -97,7 +109,8 @@ function SocialStack() {
 
 function App() {
   const [user, setUser] = React.useState(null);
-  if (user === null) {
+  const auth = useAuthentication();
+  if (!auth && user === null) {
     return <Login updatedCallback={setUser} />;
   }
   return (

@@ -27,19 +27,8 @@ function HomeScreen() {
       setUser(user);
     });
   }, []);
-  const [currentSheetMusics, setCurrentSheetMusics] = React.useState<
-    SheetMusicDocumentEntity[]
-  >([]);
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const isFocused = useIsFocused();
-
-  React.useEffect(() => {
-    SheetMusicService.getAllSheetMusic().then((data) => {
-      setCurrentSheetMusics(data);
-    });
-  }, [isFocused]);
-  console.log(currentSheetMusics);
 
   return (
     <Wrapper shouldCenterVertically={false}>
@@ -52,30 +41,6 @@ function HomeScreen() {
       <Button
         onPress={() => navigation.navigate("HomeTab", { screen: "Login" })}
         title="Go to Login"
-      />
-      <Button
-        onPress={() => navigation.navigate("HomeTab", { screen: "Upload" })}
-        title="Upload"
-      />
-      <FlatList
-        data={currentSheetMusics}
-        renderItem={({ item }) => {
-          const sheetMusic = item;
-          return (
-            <View style={{ marginVertical: 10 }}>
-              <Button
-                onPress={() => {
-                  navigation.navigate("MusicTab", {
-                    screen: "SheetMusicScreen",
-                    params: { music: item },
-                  });
-                }}
-                title={sheetMusic.name}
-                key={sheetMusic.id}
-              />
-            </View>
-          );
-        }}
       />
     </Wrapper>
   );
