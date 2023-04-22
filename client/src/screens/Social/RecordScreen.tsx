@@ -12,7 +12,7 @@ function RecordScreen() {
   const navigator = useNavigation<NavigationProp<RootStackParamList>>();
   const auth = useAuthentication();
 
-  async function uploadFromFile(file: File, name: string) {
+  async function uploadFromFile(file: File) {
     console.log(file);
 
     UserService.upload({ file })
@@ -33,9 +33,7 @@ function RecordScreen() {
       name: name ?? "new file",
       type: `video/mp4`,
     } as any);
-    console.log(formData.getAll("file").toString());
 
-    console.log("formaddat is", formData);
     try {
       const res = fetch(OpenAPI.BASE + "/user/recordings/upload", {
         method: "POST",
@@ -60,7 +58,11 @@ function RecordScreen() {
 
   function doUpload() {
     if (Platform.OS === "web") {
-      uploadFromFile(uploadResult.file, "");
+      // Rename file to match what we want
+      const file = uploadResult.file;
+      const blob = file.slice(0, file.size, "video/mp4");
+      const newFile = new File([blob], fileName, { type: "video/mp4" });
+      uploadFromFile(newFile);
     } else {
       const file = uploadResult.assets[0];
       uploadFromUri(file.uri, fileName);
