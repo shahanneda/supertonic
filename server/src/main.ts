@@ -1,9 +1,12 @@
+import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get<ConfigService>(ConfigService);
   app.enableCors();
 
   const config = new DocumentBuilder()
@@ -17,6 +20,8 @@ async function bootstrap() {
 
   SwaggerModule.setup("api", app, document);
 
-  await app.listen(3000);
+  const port = configService.get("PORT") ?? 9999;
+  await app.listen(port);
+  console.log(`SuperTonic server on port ${port}`);
 }
 bootstrap();
