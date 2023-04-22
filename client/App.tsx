@@ -96,6 +96,10 @@ function SocialStack() {
 }
 
 function App() {
+  const [user, setUser] = React.useState(null);
+  if (user === null) {
+    return <Login updatedCallback={setUser} />;
+  }
   return (
     <NavigationContainer
       theme={DefaultTheme}

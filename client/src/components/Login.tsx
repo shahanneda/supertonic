@@ -67,12 +67,9 @@ const updatedConfig = {
 };
 Amplify.configure(updatedConfig);
 
-function Login({
-  navigation,
-}: NativeStackScreenProps<RootStackParamList, "Login">) {
+function Login({ updatedCallback }: { updatedCallback: (e) => void }) {
   const [user, setUser] = useState(null);
   const [email, setUserEmail] = useState(null);
-  const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
@@ -81,9 +78,11 @@ function Login({
       switch (event) {
         case "signIn":
           setUser(data);
+          updatedCallback(data);
           break;
         case "signOut":
           setUser(null);
+          updatedCallback(null);
           // if(local)
           // localStorage.removeItem("token");
           break;
@@ -117,7 +116,9 @@ function Login({
       ) : (
         <Button
           title="Sign Out"
-          onPress={() => Auth.signOut({ global: true })}
+          onPress={() => {
+            Auth.signOut({ global: true });
+          }}
         />
       )}
       <Text>{user && user.getUsername()}</Text>
