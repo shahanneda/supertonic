@@ -31,9 +31,8 @@ function HomeScreen() {
     SheetMusicDocumentEntity[]
   >([]);
 
-  const isFocused = useIsFocused();
-
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const isFocused = useIsFocused();
 
   React.useEffect(() => {
     SheetMusicService.getAllSheetMusic().then((data) => {

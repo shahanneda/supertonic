@@ -15,9 +15,12 @@
     "eslint": "^8.38.0",
     "eslint-config-universe": "^11.2.0",
     "expo": "^48.0.7",
+    "expo-av": "~13.2.1",
     "expo-document-picker": "~11.2.2",
+    "expo-file-system": "~15.2.2",
     "expo-linking": "~4.0.1",
     "expo-status-bar": "~1.4.4",
+    "expo-video-player": "^2.2.0",
     "expo-web-browser": "~12.1.1",
     "prettier": "^2.8.7",
     "react": "18.2.0",
@@ -27,9 +30,9 @@
     "react-native-screens": "~3.20.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.7",
+    "react-native-webview": "11.26.0",
     "react-pdf": "^6.2.2",
-    "expo-file-system": "~15.2.2",
-    "react-native-webview": "11.26.0"
+    "expo-image-picker": "~14.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

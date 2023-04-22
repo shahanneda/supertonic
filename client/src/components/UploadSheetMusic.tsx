@@ -13,7 +13,7 @@ import { useAuthentication } from "../hooks/useAuthentication";
 import { RootStackParamList } from "../rootStackParamList";
 type Props = object;
 
-export default function Upload({}: Props) {
+export default function UploadSheetMusic({}: Props) {
   const navigator = useNavigation<NavigationProp<RootStackParamList>>();
   const auth = useAuthentication();
 
@@ -36,6 +36,7 @@ export default function Upload({}: Props) {
       name,
       type: `application/pdf`,
     } as any);
+    console.log(formData);
 
     try {
       const res = fetch(OpenAPI.BASE + "/sheet-music/upload", {

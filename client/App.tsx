@@ -23,7 +23,8 @@ import {
 } from "./generated";
 import { Login } from "./src/components/Login";
 import { PdfViewer } from "./src/components/PdfViewer";
-import Upload from "./src/components/Upload";
+import Recordings from "./src/components/Recordings";
+import UploadSheetMusic from "./src/components/UploadSheetMusic";
 import { useAuthentication } from "./src/hooks/useAuthentication";
 import { RootStackParamList } from "./src/rootStackParamList";
 import { HomeScreen } from "./src/screens/HomeScreen";
@@ -33,6 +34,7 @@ import {
   SheetMusicScreenHeaderRight,
 } from "./src/screens/SheetMusic/SheetMusicScreen";
 import { AllUsersScreen } from "./src/screens/Social/AllUsersScreen";
+import RecordScreen from "./src/screens/Social/RecordScreen";
 
 //https://oblador.github.io/react-native-vector-icons/
 const tabNameToNormalIcon: Record<keyof RootStackParamList, string> = {
@@ -47,6 +49,7 @@ const tabNameToFocusedIcon: Record<keyof RootStackParamList, string> = {
 };
 
 OpenAPI.BASE = "http://192.168.1.79:3000";
+// OpenAPI.BASE = "http://localhost:3000";
 OpenAPI.TOKEN = async () => {
   const session = await Auth.currentSession();
   return session.getIdToken().getJwtToken();
@@ -56,7 +59,7 @@ function HomeScreenStack() {
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Upload" component={Upload} />
+      <Stack.Screen name="Upload" component={UploadSheetMusic} />
     </Stack.Navigator>
   );
 }
@@ -86,6 +89,8 @@ function SocialStack() {
     <Stack.Navigator initialRouteName="AllUsersScreen">
       <Stack.Screen name="AllUsers" component={AllUsersScreen} />
       <Stack.Screen name="UserProfileScreen" component={SheetMusicScreen} />
+      <Stack.Screen name="RecordingsScreen" component={Recordings} />
+      <Stack.Screen name="RecordScreen" component={RecordScreen} />
     </Stack.Navigator>
   );
 }

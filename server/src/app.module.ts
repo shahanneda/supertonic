@@ -16,6 +16,7 @@ import {
 import { S3ManagerModule } from "./s3-manager/s3-manager.module";
 import { S3ManagerService } from "./s3-manager/s3-manager.service";
 import { ConfigModule } from "@nestjs/config";
+import { MulterModule } from "@nestjs/platform-express";
 
 @Module({
   imports: [

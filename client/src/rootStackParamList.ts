@@ -22,5 +22,13 @@ type MusicTabParamList = {
 type SocialTabParamList = {
   AllUsersScreen: undefined;
   UserProfileScreen: { user: UserEntity };
+  RecordingsScreen: { userId: number };
+  RecordScreen: { userId: number };
 };
-export { RootStackParamList, MusicTabParamList, HomeTabParamList };
+
+export {
+  RootStackParamList,
+  MusicTabParamList,
+  HomeTabParamList,
+  SocialTabParamList,
+};

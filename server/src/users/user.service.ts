@@ -1,13 +1,17 @@
 import { Inject, Injectable, Scope } from "@nestjs/common";
-import { REQUEST } from "@nestjs/core";
 import { User } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
+import { S3ManagerService } from "src/s3-manager/s3-manager.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { RecordingEntity } from "./entities/Recording.entity";
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private s3Manager: S3ManagerService
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const user = await this.prisma.user.create({
@@ -42,12 +46,39 @@ export class UserService {
   getAllUsers() {
     return this.prisma.user.findMany();
   }
+  async uploadRecording(
+    file: Express.Multer.File,
+    user: User,
+    description = ""
+  ) {
+    const prefix = user.id + "/recordings";
+    const s3Document = await this.s3Manager.putFile(file, prefix);
+    const recording = await this.prisma.recording.create({
+      data: {
+        name: file.originalname,
+        s3DocumentId: s3Document.id,
+        uploaderId: user.id,
+        description,
+      },
+    });
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return recording;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async getAllUserRecordings(userId: number): Promise<RecordingEntity[]> {
+    const allRecordings = await this.prisma.recording.findMany({
+      where: { uploaderId: userId },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return await Promise.all(
+      allRecordings.map(async (recording) => {
+        const out = recording as RecordingEntity;
+        out.url = await this.s3Manager.getSignedUrlForS3Document(
+          recording.s3DocumentId
+        );
+        return out;
+      })
+    );
   }
 }

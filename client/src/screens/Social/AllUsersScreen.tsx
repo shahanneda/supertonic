@@ -37,11 +37,12 @@ function AllUsersScreen() {
           return (
             <View style={{ marginVertical: 10 }}>
               <Button
-                // onPress={() => {
-                // navigation.navigate("MusicTab", {
-                //   screen: "SheetMusicScreen",
-                //   params: { music: item },
-                // }); }}
+                onPress={() => {
+                  navigation.navigate("SocialTab", {
+                    screen: "RecordingsScreen",
+                    params: { userId: user.id },
+                  });
+                }}
                 title={user.name}
                 key={user.id}
               />
