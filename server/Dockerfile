@@ -14,4 +14,4 @@ RUN npx prisma generate
 RUN npm run build
 EXPOSE 3000
 
-CMD [ "sudo", "node", "dist/main.js" ]
+CMD [  "node", "dist/main.js" ]
