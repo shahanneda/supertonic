@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "supertonic41eaa75f": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3ht6v666yddc3",
+          "type": "cicd"
+        }
       }
     }
   }
