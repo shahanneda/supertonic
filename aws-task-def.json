@@ -1,9 +1,9 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-2:776637943660:task-definition/prod-server:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-2:776637943660:task-definition/prod-server:12",
     "containerDefinitions": [
         {
             "name": "server",
-            "image": "776637943660.dkr.ecr.us-east-2.amazonaws.com/supertonic:latest",
+            "image": "776637943660.dkr.ecr.us-east-2.amazonaws.com/supertonic:224a52f35fb5294ade4dd9e581a510d970905d3b",
             "cpu": 0,
             "portMappings": [
                 {
@@ -24,6 +24,12 @@
             "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
+            "secrets": [
+                {
+                    "name": "url",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-2:776637943660:secret:prod/supertonic/url-ruGq6w:url::"
+                }
+            ],
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
@@ -38,7 +44,7 @@
     "family": "prod-server",
     "executionRoleArn": "arn:aws:iam::776637943660:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 1,
+    "revision": 12,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -53,6 +59,9 @@
         },
         {
             "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "ecs.capability.secrets.asm.environment-variables"
         },
         {
             "name": "ecs.capability.execution-role-ecr-pull"
@@ -81,7 +90,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2023-04-22T23:05:30.355Z",
+    "registeredAt": "2023-04-23T04:12:10.120Z",
     "registeredBy": "arn:aws:iam::776637943660:root",
     "tags": []
 }
