@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-2:776637943660:task-definition/prod-server:12",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-2:776637943660:task-definition/prod-server:16",
     "containerDefinitions": [
         {
             "name": "server",
