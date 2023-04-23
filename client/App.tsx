@@ -49,7 +49,8 @@ const tabNameToFocusedIcon: Record<keyof RootStackParamList, string> = {
   SocialTab: "ios-people-outline",
 };
 
-OpenAPI.BASE = "http://192.168.1.79:3000";
+OpenAPI.BASE = "https://api.getsupertonic.com";
+// OpenAPI.BASE = "http://192.168.1.79:3000";
 // OpenAPI.BASE = "http://localhost:3000";
 OpenAPI.TOKEN = async () => {
   const session = await Auth.currentSession();
