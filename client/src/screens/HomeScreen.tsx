@@ -32,7 +32,7 @@ function HomeScreen() {
 
   return (
     <Wrapper shouldCenterVertically={false}>
-      <Text>Home Screen</Text>
+      <Text>Home Screen ~ Test</Text>
       {user ? (
         <Text>
           {user.email} - {user.name}
