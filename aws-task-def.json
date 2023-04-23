@@ -1,9 +1,9 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-2:776637943660:task-definition/prod-server:16",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-2:776637943660:task-definition/prod-server:15",
     "containerDefinitions": [
         {
             "name": "server",
-            "image": "776637943660.dkr.ecr.us-east-2.amazonaws.com/supertonic:224a52f35fb5294ade4dd9e581a510d970905d3b",
+            "image": "776637943660.dkr.ecr.us-east-2.amazonaws.com/supertonic:071734edb651d34668bc7ccada00d7278386e976",
             "cpu": 0,
             "portMappings": [
                 {
@@ -21,13 +21,20 @@
                     "value": "80"
                 }
             ],
-            "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
             "secrets": [
                 {
                     "name": "DATABASE_URL",
-                    "valueFrom": "arn:aws:secretsmanager:us-east-2:776637943660:secret:prod/supertonic/url-ruGq6w:url::"
+                    "valueFrom": "arn:aws:secretsmanager:us-east-2:776637943660:secret:prod/supertonic/url-ruGq6w:DATABASE_URL::"
+                },
+                {
+                    "name": "AWS_ACCESS_KEY_ID",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-2:776637943660:secret:prod/supertonic/url-ruGq6w:AWS_ACCESS_KEY_ID::"
+                },
+                {
+                    "name": "AWS_SECRET_ACCESS_KEY",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-2:776637943660:secret:prod/supertonic/url-ruGq6w:AWS_SECRET_ACCESS_KEY::"
                 }
             ],
             "logConfiguration": {
@@ -44,7 +51,7 @@
     "family": "prod-server",
     "executionRoleArn": "arn:aws:iam::776637943660:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 12,
+    "revision": 15,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -90,7 +97,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2023-04-23T04:12:10.120Z",
+    "registeredAt": "2023-04-23T04:47:01.898Z",
     "registeredBy": "arn:aws:iam::776637943660:root",
     "tags": []
 }
