@@ -26,7 +26,7 @@
             "volumesFrom": [],
             "secrets": [
                 {
-                    "name": "url",
+                    "name": "DATABASE_URL",
                     "valueFrom": "arn:aws:secretsmanager:us-east-2:776637943660:secret:prod/supertonic/url-ruGq6w:url::"
                 }
             ],
