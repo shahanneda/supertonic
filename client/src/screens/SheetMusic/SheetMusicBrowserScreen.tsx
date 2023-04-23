@@ -65,7 +65,7 @@ function SheetMusicBrowserScreen() {
                 onPress={() => {
                   navigation.navigate("MusicTab", {
                     screen: "SheetMusicScreen",
-                    params: { music: item },
+                    params: { id: sheetMusic.id, name: sheetMusic.name },
                   });
                 }}
                 title={sheetMusic.name}

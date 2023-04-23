@@ -16,8 +16,8 @@ type HomeTabParamList = {
 type MusicTabParamList = {
   SheetMusicBrowserScreen: { userId: number };
   UploadSheetMusicScreen: undefined;
-  SheetMusicScreen: { music: SheetMusicDocumentEntity };
-  EditSheetMusicScreen: { music?: SheetMusicDocumentEntity };
+  SheetMusicScreen: { id: number; name: string };
+  EditSheetMusicScreen: { id: number; name: string };
 };
 
 type SocialTabParamList = {

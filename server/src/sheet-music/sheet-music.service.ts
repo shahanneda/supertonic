@@ -52,7 +52,6 @@ export class SheetMusicService {
   async getPagesForSheetMusic(
     sheetMusicId: number
   ): Promise<SheetMusicPageEntity[]> {
-    console.log("geting for ", sheetMusicId);
     const pages = await this.prisma.sheetMusicPage.findMany({
       where: {
         sheetMusicDocumentId: {
@@ -60,7 +59,6 @@ export class SheetMusicService {
         },
       },
     });
-    console.log("pages", pages);
 
     return await Promise.all(
       pages.map(async (page) => await this.addSignedUrlToPage(page))

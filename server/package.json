@@ -34,6 +34,8 @@
     "@types/passport-cognito": "^0.1.0",
     "aws-jwt-verify": "^4.0.0",
     "aws-sdk": "^2.1359.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "jwks-rsa": "^3.0.1",
     "nest-aws-sdk": "^3.0.1",
     "passport": "^0.6.0",

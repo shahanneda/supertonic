@@ -38,24 +38,23 @@ function SheetMusicScreen({ navigation, route }: Props) {
   console.log(route.params);
   console.log("In sheet music screen");
   const [pages, setPages] = useState<SheetMusicPageEntity[]>([]);
-
-  const { music } = route.params;
+  const { id, name } = route.params;
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    if (music) {
-      console.log("makiing api call", music.id);
-      SheetMusicService.getPagesForSheetMusic(music.id).then((data) => {
+    if (id) {
+      console.log("makiing api call", id);
+      SheetMusicService.getPagesForSheetMusic(id).then((data) => {
         setPages(data);
       });
     }
-  }, [music]);
+  }, [id]);
 
-  if (!route.params.music || !pages || pages.length === 0) {
+  if (!route.params.id || !pages || pages.length === 0) {
     console.log("early return");
     return;
   }
-  navigation.setOptions({ headerTitle: music?.name });
+  navigation.setOptions({ headerTitle: name });
   // console.log(pages);
   // console.log(pages[currentPage].url);
 
@@ -106,7 +105,7 @@ function SheetMusicScreen({ navigation, route }: Props) {
 
 function SheetMusicScreenHeaderRight() {
   const route = useRoute<RouteProp<MusicTabParamList, "SheetMusicScreen">>();
-  const music = route.params.music;
+  const { id, name } = route.params;
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
@@ -115,7 +114,7 @@ function SheetMusicScreenHeaderRight() {
       onPress={() => {
         navigation.navigate("MusicTab", {
           screen: "EditSheetMusicScreen",
-          params: { music },
+          params: { id, name },
         });
       }}
     />

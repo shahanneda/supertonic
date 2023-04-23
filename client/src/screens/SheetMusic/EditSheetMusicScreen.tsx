@@ -20,20 +20,22 @@ import {
 type Props = NativeStackScreenProps<MusicTabParamList, "EditSheetMusicScreen">;
 
 function EditSheetMusicScreen({ navigation, route }: Props) {
-  const music = route.params?.music ?? undefined;
-  const [name, setName] = useState(music?.name ?? "");
+  const id = route.params.id;
+  const oldName = route.params.name;
 
-  if (!music) {
+  const [name, setName] = useState(oldName ?? "");
+
+  if (!id) {
     return;
   }
 
   async function submitChange() {
     const updateMusic = await SheetMusicService.updateSheetMusic({
-      id: music.id,
+      id,
       name,
     });
     console.log("updateMusic", updateMusic);
-    navigation.navigate("SheetMusicScreen", { music: updateMusic });
+    navigation.navigate("SheetMusicScreen", { id, name });
   }
 
   return (

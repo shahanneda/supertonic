@@ -54,6 +54,7 @@ OpenAPI.BASE =
     ? "https://api.getsupertonic.com"
     : "http://localhost:3000";
 
+// OpenAPI.BASE = "https://api.getsupertonic.com";
 // OpenAPI.BASE = "http://192.168.1.79:3000";
 // OpenAPI.BASE = "http://localhost:3000";
 OpenAPI.TOKEN = async () => {
@@ -118,10 +119,37 @@ function App() {
   if (!auth && user === null) {
     return <Login updatedCallback={setUser} />;
   }
+  const config = {
+    screens: {
+      MusicTab: {
+        screens: {
+          Profile: "users/:id",
+          Settings: "settings",
+        },
+      },
+    },
+  };
+
   return (
     <NavigationContainer
       theme={DefaultTheme}
-      linking={{ enabled: true, prefixes: ["localhost"] }}
+      linking={{
+        enabled: true,
+        prefixes: ["localhost"],
+        // config: {
+        //   screens: {
+        //     HomeTab: {
+        //       path: "Home",
+        //     },
+        //     MusicTab: {
+        //       path: "Music",
+        //     },
+        //   },
+        // },
+        // getStateFromPath(path, options?) {
+        //   console.log("getStateFromPath", path, options);
+        // },
+      }}
     >
       <Tab.Navigator
         screenOptions={({ route }) => ({

@@ -12,6 +12,8 @@ import {
   UnauthorizedException,
   UploadedFile,
   UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import {
@@ -108,6 +110,7 @@ export class SheetMusicController {
     type: PatchSheetMusicEntity,
   })
   @ApiResponse({ type: SheetMusicDocumentEntity })
+  @UsePipes(new ValidationPipe({ transform: true }))
   async updateSheetMusic(
     @Body() patch: PatchSheetMusicEntity,
     @InjectUser() user: User
