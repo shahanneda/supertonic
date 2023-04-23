@@ -37,7 +37,7 @@ import {
 import { AllUsersScreen } from "./src/screens/Social/AllUsersScreen";
 import RecordScreen from "./src/screens/Social/RecordScreen";
 
-//https://oblador.github.io/react-native-vector-icons/
+// //https://oblador.github.io/react-native-vector-icons/
 const tabNameToNormalIcon: Record<keyof RootStackParamList, string> = {
   HomeTab: "ios-home",
   MusicTab: "ios-albums",
@@ -106,7 +106,6 @@ function SocialStack() {
   return (
     <Stack.Navigator initialRouteName="AllUsersScreen">
       <Stack.Screen name="AllUsers" component={AllUsersScreen} />
-      <Stack.Screen name="UserProfileScreen" component={SheetMusicScreen} />
       <Stack.Screen name="RecordingsScreen" component={Recordings} />
       <Stack.Screen name="RecordScreen" component={RecordScreen} />
     </Stack.Navigator>

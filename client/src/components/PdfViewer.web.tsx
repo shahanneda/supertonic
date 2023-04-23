@@ -9,6 +9,7 @@ import { RootStackParamList } from "../rootStackParamList";
 
 function PdfViewer({ url }: { url: string }) {
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
   const ref = useRef();
 
   const [height, setHeight] = useState(100);
@@ -24,8 +25,23 @@ function PdfViewer({ url }: { url: string }) {
     }
   }, [ref]);
 
+  if (!url || url === "") {
+    return;
+  }
+  console.log(url);
+
   return (
-    <div style={{ flex: 1, height: "100%", width: "100%" }} ref={ref}>
+    <div
+      style={{
+        flex: 1,
+        height: "90%",
+        width: "90%",
+        alignContent: "center",
+        justifyContent: "center",
+      }}
+      ref={ref}
+    >
+      {/* <embed src={url} style={{ height, width: "100%" }} /> */}
       <Document file={url}>
         <Page
           pageNumber={1}
