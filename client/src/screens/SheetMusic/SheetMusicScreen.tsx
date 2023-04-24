@@ -23,6 +23,7 @@ import {
   Pressable,
   View,
 } from "react-native";
+import GestureRecognizer from "react-native-swipe-gestures";
 import { Document, Page, pdfjs } from "react-pdf";
 
 import { SheetMusicPageEntity, SheetMusicService } from "../../../generated";
@@ -33,17 +34,17 @@ import {
 } from "../../rootStackParamList";
 
 type Props = NativeStackScreenProps<MusicTabParamList, "SheetMusicScreen">;
+const SWIPE_THRESHOLD = 20;
 
 function SheetMusicScreen({ navigation, route }: Props) {
   console.log(route.params);
-  console.log("In sheet music screen");
   const [pages, setPages] = useState<SheetMusicPageEntity[]>([]);
   const { id, name } = route.params;
   const [currentPage, setCurrentPage] = useState(0);
+  const [touchX, setTouchX] = useState(0);
 
   useEffect(() => {
     if (id) {
-      console.log("makiing api call", id);
       SheetMusicService.getPagesForSheetMusic(id).then((data) => {
         setPages(data);
       });
@@ -51,12 +52,12 @@ function SheetMusicScreen({ navigation, route }: Props) {
   }, [id]);
 
   if (!route.params.id || !pages || pages.length === 0) {
-    console.log("early return");
     return;
   }
   navigation.setOptions({ headerTitle: name });
-  // console.log(pages);
-  // console.log(pages[currentPage].url);
+
+  const nextPage = () => setCurrentPage(mod(currentPage - 1, pages.length));
+  const prevPage = () => setCurrentPage(mod(currentPage + 1, pages.length));
 
   return (
     <View style={{ flex: 1 }}>
@@ -87,15 +88,20 @@ function SheetMusicScreen({ navigation, route }: Props) {
           width: "100%",
           height: "100%",
         }}
+        onTouchStart={(e) => setTouchX(e.nativeEvent.pageX)}
+        onTouchEnd={(e) => {
+          if (touchX - e.nativeEvent.pageX > SWIPE_THRESHOLD) nextPage();
+          if (touchX - e.nativeEvent.pageX < -SWIPE_THRESHOLD) prevPage();
+        }}
       >
         <PageFlipper
           onPress={() => {
-            setCurrentPage(mod(currentPage - 1, pages.length));
+            nextPage();
           }}
         />
         <PageFlipper
           onPress={() => {
-            setCurrentPage(mod(currentPage + 1, pages.length));
+            prevPage();
           }}
         />
       </View>
@@ -120,6 +126,7 @@ function SheetMusicScreenHeaderRight() {
     />
   );
 }
+
 const PageFlipper = ({ onPress }: { onPress: () => void }) => {
   const styles = StyleSheet.create({
     button: {
@@ -133,7 +140,7 @@ const PageFlipper = ({ onPress }: { onPress: () => void }) => {
     },
   });
 
-  return <Pressable style={styles.button} onPress={onPress} />;
+  return <Pressable style={styles.button} onPress={onPress} onSw />;
 };
 
 // Javascript mod is broken for negative numbers
