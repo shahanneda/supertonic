@@ -90,8 +90,8 @@ function SheetMusicScreen({ navigation, route }: Props) {
         }}
         onTouchStart={(e) => setTouchX(e.nativeEvent.pageX)}
         onTouchEnd={(e) => {
-          if (touchX - e.nativeEvent.pageX > SWIPE_THRESHOLD) nextPage();
-          if (touchX - e.nativeEvent.pageX < -SWIPE_THRESHOLD) prevPage();
+          if (touchX - e.nativeEvent.pageX > SWIPE_THRESHOLD) prevPage();
+          if (touchX - e.nativeEvent.pageX < -SWIPE_THRESHOLD) nextPage();
         }}
       >
         <PageFlipper
