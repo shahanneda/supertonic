@@ -26,7 +26,9 @@ export class SheetMusicService {
     sheetMusicDocument: SheetMusicDocument,
     fileNamePrefix: string
   ): Promise<Array<SheetMusicPage>> {
-    const srcDoc = await PDFDocument.load(file.buffer);
+    const srcDoc = await PDFDocument.load(file.buffer, {
+      ignoreEncryption: true,
+    });
     const pages = [];
     for (let i = 0; i < srcDoc.getPageCount(); i++) {
       const singlePage = await copyButOnlyPages(srcDoc, [i]);

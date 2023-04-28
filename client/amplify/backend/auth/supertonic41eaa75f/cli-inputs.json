@@ -69,6 +69,6 @@
       "Ref": "AWS::StackId"
     },
     "permissions": [],
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:4000/\",\"http://localhost:19006/\",\"exp://192.168.1.79:19000/\",\"https://getsupertonic.com/\"],\"LogoutURLs\":[\"http://localhost:4000/\",\"http://localhost:19006/\",\"exp://192.168.1.79:19000/\",\"https://getsupertonic.com/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:4000/\",\"http://localhost:19006/\",\"exp://192.168.1.79:19000/\",\"https://getsupertonic.com/\",\"supertonic://\"],\"LogoutURLs\":[\"http://localhost:4000/\",\"http://localhost:19006/\",\"exp://192.168.1.79:19000/\",\"https://getsupertonic.com/\",\"supertonic://\"]}"
   }
 }

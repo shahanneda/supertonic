@@ -14,11 +14,11 @@ import { RootStackParamList } from "../rootStackParamList";
 
 const isLocalHost = Boolean(__DEV__);
 
-const [localRedirectSignIn, productionRedirectSignIn] =
-  awsConfig.oauth.redirectSignIn.split(",");
+// const [localRedirectSignIn, productionRedirectSignIn] =
+//   awsConfig.oauth.redirectSignIn.split(",");
 
-const [localRedirectSignOut, productionRedirectSignOut] =
-  awsConfig.oauth.redirectSignOut.split(",");
+// const [localRedirectSignOut, productionRedirectSignOut] =
+//   awsConfig.oauth.redirectSignOut.split(",");
 
 function getAppLink() {
   let val = createURL("");

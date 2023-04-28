@@ -8,6 +8,7 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Auth } from "aws-amplify";
+import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
@@ -49,13 +50,13 @@ const tabNameToFocusedIcon: Record<keyof RootStackParamList, string> = {
   SocialTab: "ios-people-outline",
 };
 
-// OpenAPI.BASE =
-//   process.env.NODE_ENV === "production"
-//     ? "https://api.getsupertonic.com"
-//     : "http://localhost:3000";
+OpenAPI.BASE =
+  process.env.NODE_ENV === "production"
+    ? "https://api.getsupertonic.com"
+    : "http://localhost:3000";
 
 // OpenAPI.BASE = "https://api.getsupertonic.com";
-OpenAPI.BASE = "http://192.168.1.79:3000";
+// OpenAPI.BASE = "http://192.168.1.79:3000";
 // OpenAPI.BASE = "http://localhost:3000";
 OpenAPI.TOKEN = async () => {
   const session = await Auth.currentSession();
@@ -116,7 +117,12 @@ function App() {
   const [user, setUser] = React.useState(null);
   const auth = useAuthentication();
   if (!auth && user === null) {
-    return <Login updatedCallback={setUser} />;
+    return (
+      <>
+        <StatusBar style="auto" />
+        <Login updatedCallback={setUser} />
+      </>
+    );
   }
   const config = {
     screens: {
@@ -130,56 +136,59 @@ function App() {
   };
 
   return (
-    <NavigationContainer
-      theme={DefaultTheme}
-      linking={{
-        enabled: true,
-        prefixes: ["localhost"],
-        // config: {
-        //   screens: {
-        //     HomeTab: {
-        //       path: "Home",
-        //     },
-        //     MusicTab: {
-        //       path: "Music",
-        //     },
-        //   },
-        // },
-        // getStateFromPath(path, options?) {
-        //   console.log("getStateFromPath", path, options);
-        // },
-      }}
-    >
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            const iconName = focused
-              ? tabNameToFocusedIcon[route.name]
-              : tabNameToNormalIcon[route.name];
-
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: "tomato",
-          tabBarInactiveTintColor: "gray",
-        })}
+    <>
+      <NavigationContainer
+        theme={DefaultTheme}
+        linking={{
+          enabled: true,
+          prefixes: ["localhost"],
+          // config: {
+          //   screens: {
+          //     HomeTab: {
+          //       path: "Home",
+          //     },
+          //     MusicTab: {
+          //       path: "Music",
+          //     },
+          //   },
+          // },
+          // getStateFromPath(path, options?) {
+          //   console.log("getStateFromPath", path, options);
+          // },
+        }}
       >
-        <Tab.Screen
-          name="HomeTab"
-          component={HomeScreenStack}
-          options={{ headerShown: false, title: "Home" }}
-        />
-        <Tab.Screen
-          name="MusicTab"
-          component={SheetMusicStack}
-          options={{ headerShown: false, title: "Music" }}
-        />
-        <Tab.Screen
-          name="SocialTab"
-          component={SocialStack}
-          options={{ headerShown: false, title: "Social" }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              const iconName = focused
+                ? tabNameToFocusedIcon[route.name]
+                : tabNameToNormalIcon[route.name];
+
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+            tabBarActiveTintColor: "tomato",
+            tabBarInactiveTintColor: "gray",
+          })}
+        >
+          <Tab.Screen
+            name="HomeTab"
+            component={HomeScreenStack}
+            options={{ headerShown: false, title: "Home" }}
+          />
+          <Tab.Screen
+            name="MusicTab"
+            component={SheetMusicStack}
+            options={{ headerShown: false, title: "Music" }}
+          />
+          <Tab.Screen
+            name="SocialTab"
+            component={SocialStack}
+            options={{ headerShown: false, title: "Social" }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+      <StatusBar style="auto" />
+    </>
   );
 }
 
