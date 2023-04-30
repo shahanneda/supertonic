@@ -134,4 +134,21 @@ export class UserService {
         });
     }
 
+    /**
+     * @param id
+     * @returns boolean
+     * @throws ApiError
+     */
+    public static deleteRecording(
+        id: number,
+    ): CancelablePromise<boolean> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/user/recording/delete/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
 }

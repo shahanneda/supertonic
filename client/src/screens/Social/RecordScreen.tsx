@@ -56,7 +56,10 @@ function RecordScreen() {
   const [uploadResult, setUploadResult] = useState<any>();
   const [fileName, setFileName] = useState("");
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   function doUpload() {
+    setLoading(true);
     if (Platform.OS === "web") {
       // Rename file to match what we want
       const file = uploadResult.file;
@@ -119,7 +122,7 @@ function RecordScreen() {
           doUpload();
         }}
         title="Upload"
-        disabled={!uploadResult || !fileName}
+        disabled={!uploadResult || !fileName || loading}
       />
     </View>
   );

@@ -81,4 +81,10 @@ export class UserService {
       })
     );
   }
+
+  async deleteRecording(recordingId: number) {
+    await this.prisma.recording.delete({
+      where: { id: recordingId },
+    });
+  }
 }

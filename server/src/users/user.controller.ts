@@ -107,6 +107,16 @@ export class UserController {
     return { message: "File uploaded successfully" };
   }
 
+  @Post("/recording/delete/:id")
+  @ApiOkResponse({ type: Boolean })
+  @ApiName("deleteRecording")
+  deleteRecording(
+    @Param("id", new ParseIntPipe())
+    id: number
+  ) {
+    return this.usersService.deleteRecording(id);
+  }
+
   // @Patch(':id')
   // @ApiOkResponse({ type: UserEntity })
   // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
