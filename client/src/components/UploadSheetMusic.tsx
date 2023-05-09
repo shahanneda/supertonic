@@ -28,7 +28,6 @@ export default function UploadSheetMusic({}: Props) {
   }
 
   async function uploadFromUri(uri: string, name: string) {
-    console.log("doing upload");
     // Have to do manual request on mobile since the file uri is a bit weird
     const formData = new FormData();
     formData.append("file", {
@@ -36,7 +35,6 @@ export default function UploadSheetMusic({}: Props) {
       name,
       type: `application/pdf`,
     } as any);
-    console.log(formData);
 
     try {
       const res = fetch(OpenAPI.BASE + "/sheet-music/upload", {
@@ -49,10 +47,8 @@ export default function UploadSheetMusic({}: Props) {
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
           navigator.goBack();
         });
-      // console.log(await res.());
     } catch (e) {
       console.log("Failed to upload file", e);
     }
