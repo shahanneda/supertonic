@@ -34,6 +34,7 @@ export default function UploadSheetMusic({}: Props) {
       uri,
       name,
       type: `application/pdf`,
+console.log(formData);
     } as any);
 
     try {
