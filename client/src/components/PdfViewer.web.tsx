@@ -1,3 +1,6 @@
+// This file is needed to handle the differences in rendering PDFs on web and mobile platforms.
+// The PdfViewer.web.tsx file is specifically for web, while PdfViewer.tsx is for mobile.
+
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useRef, useState } from "react";
