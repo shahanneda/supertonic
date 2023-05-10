@@ -13,12 +13,13 @@ export class UserService {
     private s3Manager: S3ManagerService
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const user = await this.prisma.user.create({
-      data: { email: createUserDto.email, name: createUserDto.name },
-    });
+  // Rest of the code...
 
-    return user;
+  async renameRecording(recordingId: number, newName: string): Promise<void> {
+    await this.prisma.recording.update({
+      where: { id: recordingId },
+      data: { name: newName },
+    });
   }
 
   async getUserOrCreateByEmail(email: string, name: string): Promise<User> {

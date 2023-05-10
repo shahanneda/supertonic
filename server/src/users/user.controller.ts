@@ -41,10 +41,19 @@ import { FileInterceptor } from "@nestjs/platform-express";
 export class UserController {
   constructor(private readonly usersService: UserService) {}
 
-  @Post()
-  @ApiOperation({ operationId: "createUser" })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  // Rest of the code...
+
+  @Patch("/recordings/:id")
+  @Protected()
+  @ApiName("renameRecording")
+  @ApiOkResponse({ type: RecordingEntity })
+  async renameRecording(
+    @Param("id", new ParseIntPipe())
+    recordingId: number,
+    @Body("newName") newName: string,
+    @InjectUser() user: User
+  ): Promise<RecordingEntity> {
+    return await this.usersService.renameRecording(recordingId, newName);
   }
 
   @Get("/")
