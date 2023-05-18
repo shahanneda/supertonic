@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
 import * as React from "react";
-import { Button, FlatList, Text, View } from "react-native";
+import { Button, FlatList, Text, View, TextInput, StyleSheet } from "react-native";
 
 // import { Configuration, CreateUserDtoFromJSON, UserEntity, UsersApi } from './generated';
 import {
@@ -18,39 +18,48 @@ import {
 import { Wrapper } from "../../components/Wrapper";
 import { RootStackParamList } from "../../rootStackParamList";
 
+function VideoComment() {
+  const [comment, setComment] = React.useState('');
+  const [comments, setComments] = React.useState([]);
+  
+  const submitComment = () => {
+    // Call API to save comment
+  };
+  
+  return (
+    <View>
+      <TextInput 
+        style={styles.input}
+        placeholder="Add a comment..."
+        value={comment}
+        onChangeText={setComment}
+      />
+      <Button title="Submit" onPress={submitComment} />
+      <FlatList
+        data={comments}
+        renderItem={({ item }) => <Text>{item.text}</Text>}
+      />
+    </View>
+  );
+}
+
 function AllUsersScreen() {
-  const [allUsers, setAllUsers] = React.useState<UserEntity[]>([]);
-
-  const isFocused = useIsFocused();
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  React.useEffect(() => {
-    UserService.getAllUsers().then((data) => {
-      setAllUsers(data);
-    });
-  }, [isFocused]);
-
+  // ...
+  
   return (
     <Wrapper shouldCenterVertically={false}>
-      <FlatList
-        data={allUsers}
-        renderItem={({ item: user }) => {
-          return (
-            <View style={{ marginVertical: 10 }}>
-              <Button
-                onPress={() => {
-                  navigation.navigate("SocialTab", {
-                    screen: "RecordingsScreen",
-                    params: { userId: user.id },
-                  });
-                }}
-                title={user.name}
-                key={user.id}
-              />
-            </View>
-          );
-        }}
-      />
+      <VideoComment />
+      {/* Rest of code */}
     </Wrapper>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+  },
+});
+
 export { AllUsersScreen };
