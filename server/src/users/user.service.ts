@@ -46,6 +46,7 @@ export class UserService {
   getAllUsers() {
     return this.prisma.user.findMany();
   }
+
   async uploadRecording(
     file: Express.Multer.File,
     user: User,
@@ -80,5 +81,14 @@ export class UserService {
         return out;
       })
     );
+  }
+
+  async renameRecording(recordingId: number, newName: string): Promise<RecordingEntity> {
+    const recording = await this.prisma.recording.update({
+      where: { id: recordingId },
+      data: { name: newName },
+    });
+
+    return recording;
   }
 }
