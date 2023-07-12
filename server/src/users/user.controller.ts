@@ -107,14 +107,14 @@ export class UserController {
     return { message: "File uploaded successfully" };
   }
 
-  // @Patch(':id')
-  // @ApiOkResponse({ type: UserEntity })
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.usersService.remove(+id);
-  // }
+  @Patch("/recordings/:id")
+  @ApiOkResponse({ type: RecordingEntity })
+  @ApiName("renameRecording")
+  async renameRecording(
+    @Param("id", new ParseIntPipe())
+    id: number,
+    @Body("newName") newName: string
+  ): Promise<RecordingEntity> {
+    return await this.usersService.renameRecording(id, newName);
+  }
 }
